@@ -1,4 +1,4 @@
-# Use a Python base image
+# Use a Python 3.9 alpine base image
 FROM python:3.9-alpine
 
 # Set the working directory
