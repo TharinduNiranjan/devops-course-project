@@ -1,4 +1,4 @@
-# Use a Node.js base image
+# Use a Node.js 14 alpine base image
 FROM node:14-alpine
 
 # Set the working directory
