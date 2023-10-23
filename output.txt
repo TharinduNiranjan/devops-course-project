@@ -1,9 +1,0 @@
-CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS     NAMES
-a0a2c3ce7f28   dcthra-service1   "python service1.py"     7 seconds ago   Up 6 seconds             dcthra-service1-1
-6e3f98a8113c   dcthra-service2   "docker-entrypoint.s…"   7 seconds ago   Up 6 seconds             dcthra-service2-1
-
-NETWORK ID     NAME                  DRIVER    SCOPE
-6f540393d1f1   bridge                bridge    local
-28949200ee78   dcthra_localnetwork   bridge    local
-21c1f0c560c9   host                  host      local
-8a2151b096e0   none                  null      local

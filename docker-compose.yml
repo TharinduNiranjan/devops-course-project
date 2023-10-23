@@ -1,21 +1,31 @@
 version: '3'
-
 services:
+  rabbitmq:
+    image: "rabbitmq:management-alpine"
+    networks:
+      - mynetwork
   service1:
     build:
       context: ./service1
-    volumes:
-      - ./logs:/logs
+    depends_on:
+      - rabbitmq
     networks:
-      - localnetwork
-
+      - mynetwork
   service2:
     build:
       context: ./service2
-    volumes:
-      - ./logs:/logs
+    depends_on:
+      - rabbitmq
     networks:
-      - localnetwork
-
+      - mynetwork
+  monitoring_service:
+    build:
+      context: ./monitoring_service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8087:8087"
+    networks:
+      - mynetwork
 networks:
-  localnetwork:
+  mynetwork:

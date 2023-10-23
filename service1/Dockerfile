@@ -4,11 +4,11 @@ FROM python:3.9-alpine
 # Set the working directory
 WORKDIR /app
 
-# Copy the service2.py script into the container
+# Copy the service1.py script into the container
 COPY service1.py .
 
-# Install Flask for the web server
-RUN pip install requests sockets
+# Install dependencies
+RUN pip install requests sockets pika tenacity
 
 # Command to run the service
 CMD ["python", "service1.py"]

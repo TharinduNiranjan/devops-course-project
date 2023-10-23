@@ -5,10 +5,10 @@ FROM node:14-alpine
 WORKDIR /app
 
 # Copy the service2.js script into the container
-COPY service2.js .
+COPY monitor.js .
 
 # Install the 'http' library for HTTP requests
-RUN npm install http amqplib 
+RUN npm install http amqplib amqp-connection-manager
 
 # Command to run the service
-CMD ["sh", "-c", "sleep 2 ; node service2.js"]
+CMD ["sh", "-c", "sleep 2 ; node monitor.js"]
