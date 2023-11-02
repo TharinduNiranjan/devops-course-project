@@ -8,7 +8,7 @@
     ```bash
            ssh-keygen -t rsa -b 2048
     ```
-3. Copy **id_rsa.pub** file(<userhome>/.ssh directory) to the cloned/download directory as 
+3. Copy **id_rsa.pub** file(< userhome >/.ssh directory) to the cloned/download directory as 
  **authorized_keys**
 4. Build the docker image using the below command
     ```bash
