@@ -22,7 +22,7 @@
     ```bash
         docker exec container1 ifconfig
     ```
-7. Add the IP address of container1 to the hosts file in the cloned/download directory.
+7. Add the IP address of **container1** to the **hosts** file in the cloned/download directory.
 
 8. Run the ansible playbook.
     ```bash
@@ -38,7 +38,7 @@
     ```bash
       docker exec container2 ifconfig
     ```
-13. Add the IP address of container2 to the hosts file and comment previously added host entry.
+13. Add the IP address of **container2** to the **hosts** file and **comment** previously added **host entry**.
 14. Run the ansible playbook.
     ```bash
       ansible-playbook ansibletask-playbook.yaml
