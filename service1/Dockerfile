@@ -8,7 +8,7 @@ WORKDIR /app
 COPY service1.py .
 
 # Install dependencies
-RUN pip install requests sockets pika tenacity
+RUN pip install requests sockets pika tenacity flask
 
 # Command to run the service
 CMD ["python", "service1.py"]
