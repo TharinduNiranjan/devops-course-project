@@ -35,10 +35,14 @@ const startService = () => {
         res.statusCode = 200;
         res.end('OK');
       });
+    } else if (req.url === '/shutdown') {
+      // Handle shutdown request
+      shutdownService(res);
+
     }
   });
 
-  server.listen(8000, () => {
+  server.listen(8002, () => {
     console.log('Service 2 is listening on port 8000');
   });
 
@@ -73,6 +77,14 @@ const startService = () => {
       });
     });
   });
+};
+
+const shutdownService = (res) => {
+  console.log('Shutting down Service 2...');
+  // Close the server and exit the process
+  res.statusCode = 200;
+  res.end('Shutting down Service 2...');
+  process.exit(0);
 };
 
 const waitForRabbitMQ = () => {
