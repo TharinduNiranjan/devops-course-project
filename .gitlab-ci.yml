@@ -6,7 +6,7 @@ stages:
   - build
   - test
   - deploy
-
+  
 build:
   stage: build
   script:
@@ -16,6 +16,7 @@ test:
   stage: test
   script:
     - docker-compose run --rm api_gateway_service python -m unittest discover /app -v
+
 
 deploy:
   stage: deploy
