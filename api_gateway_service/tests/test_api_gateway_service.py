@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from app.api_gateway_service import app
+from api_gateway_service import app
 
 class TESTSAPIGatewayService(unittest.TestCase):
     def setUp(self):
