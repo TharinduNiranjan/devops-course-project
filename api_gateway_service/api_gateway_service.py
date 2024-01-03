@@ -42,5 +42,13 @@ def set_state():
         response = requests.put(f"{SERVICE1_URL}/state", data=new_state)
         return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
+
+@app.route('/state', methods=['GET'])
+def get_state():
+    # Forward the request to the service1
+    response = requests.get(f"{SERVICE1_URL}/state")
+    return response.content, response.status_code, {'Content-Type': 'text/plain'}
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8083)

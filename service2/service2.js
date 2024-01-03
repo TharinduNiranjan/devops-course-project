@@ -87,6 +87,7 @@ const shutdownService = (res) => {
   process.exit(0);
 };
 
+
 const waitForRabbitMQ = () => {
   amqp.connect('amqp://rabbitmq', (error, connection) => {
     if (error) {

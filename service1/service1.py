@@ -53,10 +53,12 @@ def shutdown_service():
 def send_messages():
     global counter,remote_host_ip,service2_url
     time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
-    data = f"SND {counter} {time_stamp} {remote_host_ip}:8000"  # construct text data to send and write
+    data = f"SND {counter} {time_stamp} {remote_host_ip}:8002"  # construct text data to send and write
 
+    # Send message to RabbitMQ
+    print("sending data to rabbitmq " + data)
+    channel.basic_publish(exchange='', routing_key='message', body=data)
     # Send HTTP request to Service 2
-
     try:
         print("sending data to service2 " + data)
         response = requests.post(service2_url, data=data)
@@ -131,6 +133,10 @@ def update_state():
 
     return jsonify({"message": f"State updated to {new_state}"}), 200
 
+@app.route('/state', methods=['GET'])
+def get_state():
+    global previous_state
+    return previous_state
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8001)
