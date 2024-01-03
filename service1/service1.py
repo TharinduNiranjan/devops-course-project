@@ -131,6 +131,10 @@ def update_state():
 
     return jsonify({"message": f"State updated to {new_state}"}), 200
 
+@app.route('/state', methods=['GET'])
+def get_state():
+    global previous_state
+    return previous_state
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8001)
