@@ -23,8 +23,15 @@ services:
       context: ./monitoring_service
     depends_on:
       - rabbitmq
+    networks:
+      - mynetwork
+  api_gateway_service:
+    build:
+      context: ./api_gateway_service
+    depends_on:
+      - rabbitmq
     ports:
-      - "8087:8087"
+      - "8083:8083"
     networks:
       - mynetwork
 networks:

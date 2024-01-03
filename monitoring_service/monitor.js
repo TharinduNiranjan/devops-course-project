@@ -20,7 +20,7 @@ const channelWrapper = connection.createChannel({
 
 function runHttpServer() {
   const server = http.createServer((req, res) => {
-    if (req.url === '/') {
+    if (req.url === '/logs') {
       res.setHeader('Content-Type', 'text/plain');
       res.end(receivedMessages.join('\n'));
     } else {
