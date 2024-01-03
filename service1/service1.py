@@ -55,8 +55,10 @@ def send_messages():
     time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
     data = f"SND {counter} {time_stamp} {remote_host_ip}:8000"  # construct text data to send and write
 
+    # Send message to RabbitMQ
+    print("sending data to rabbitmq " + data)
+    channel.basic_publish(exchange='', routing_key='message', body=data)
     # Send HTTP request to Service 2
-
     try:
         print("sending data to service2 " + data)
         response = requests.post(service2_url, data=data)
