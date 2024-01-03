@@ -49,6 +49,11 @@ def get_state():
     response = requests.get(f"{SERVICE1_URL}/state")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
+@app.route('/run-log', methods=['GET'])
+def get_run_log():
+    # Forward the request to the Monitor service
+    response = requests.get(f"{MONITOR_SERVICE_URL}/run-logs")
+    return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8083)

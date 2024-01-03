@@ -2,6 +2,7 @@ const http = require('http');
 const amqp = require('amqp-connection-manager');
 
 const receivedMessages = [];
+const receivedRunLogMessages = [];
 
 const connection = amqp.connect(['amqp://rabbitmq']);
 const channelWrapper = connection.createChannel({
@@ -14,6 +15,12 @@ const channelWrapper = connection.createChannel({
       receivedMessages.push(msg.content.toString());
     }, { noAck: true });
 
+    const queueRunLog = 'log-state';
+
+    channel.assertQueue(queueRunLog, { durable: false });
+    channel.consume(queueRunLog, (msg) => {
+      receivedRunLogMessages.push(msg.content.toString());
+    }, { noAck: true });
     console.log('Waiting for log messages from RabbitMQ...');
   },
 });
@@ -23,6 +30,9 @@ function runHttpServer() {
     if (req.url === '/logs') {
       res.setHeader('Content-Type', 'text/plain');
       res.end(receivedMessages.join('\n'));
+    } else if(req.url === '/run-logs'){
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(receivedRunLogMessages.join('\n'));
     } else if (req.url === '/shutdown') {
       // Handle shutdown request
       shutdownService(res);
