@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the api_gateway_service.py script into the container
 COPY api_gateway_service.py .
-COPY tests .
+COPY tests/test_api_gateway_service.py .
 # Install dependencies
 RUN pip install requests flask
 
