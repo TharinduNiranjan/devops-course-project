@@ -42,5 +42,18 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.data, b"Mocked Content")
         self.assertEqual(response.content_type, 'text/plain')
         mock_get.assert_called_once_with('http://service1:8001/state')
+
+    @patch('requests.get')  # Mock the requests.get function
+    def test_get_run_log(self, mock_get):
+        # Mock the response from the requests.get call
+        mock_get.return_value.content = b"Mocked Content"
+        mock_get.return_value.status_code = 200
+
+        response = self.app.get('/run-log')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, b"Mocked Content")
+        self.assertEqual(response.content_type, 'text/plain')
+        mock_get.assert_called_once_with('http://monitoring_service:8087/run-logs')
 if __name__ == '__main__':
     unittest.main()

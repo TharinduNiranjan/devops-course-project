@@ -28,6 +28,9 @@ def connect_to_rabbitmq():
 connection = connect_to_rabbitmq()
 channel = connection.channel()
 
+#  declaring log-state queue
+channel.queue_declare(queue='log-state')
+
 #  declaring message queue
 channel.queue_declare(queue='message')
 
@@ -107,6 +110,12 @@ def update_state():
 
         if new_state == previous_state:
             return jsonify({"message": f"State is already {new_state}"}), 200
+
+        # send status change into rabbitmq
+        time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
+        state_change = f"{time_stamp}: {previous_state} -> {new_state}"
+        print("sending data to rabbitmq " + state_change)
+        channel.basic_publish(exchange='', routing_key='log-state', body=state_change)
 
         if new_state == "INIT":
             counter = 1
