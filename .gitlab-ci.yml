@@ -21,7 +21,7 @@ test:
 sonarqube-check:
   stage: sonarqube-check
   tags:
-      - sonarqube  # name of gitlab runner tag
+      - dcthra  # name of gitlab runner tag
   image: 
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
