@@ -53,7 +53,7 @@ def shutdown_service():
 def send_messages():
     global counter,remote_host_ip,service2_url
     time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
-    data = f"SND {counter} {time_stamp} {remote_host_ip}:8000"  # construct text data to send and write
+    data = f"SND {counter} {time_stamp} {remote_host_ip}:8002"  # construct text data to send and write
 
     # Send message to RabbitMQ
     print("sending data to rabbitmq " + data)
