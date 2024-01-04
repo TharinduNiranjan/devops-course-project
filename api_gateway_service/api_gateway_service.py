@@ -33,7 +33,7 @@ def set_state():
             response = requests.put(f"{SERVICE1_URL}/state", data=new_state)
             print(response.content)
             threading.Thread(target=stop_services).start()
-            return jsonify({"message": "dockers stopped"}, 200)
+            return "services stopped..", response.status_code, {'Content-Type': 'text/plain'}
         except Exception as e:
             return jsonify(f"Error:{e}", 500)
     else:
