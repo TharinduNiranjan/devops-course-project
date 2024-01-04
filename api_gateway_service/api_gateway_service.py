@@ -31,6 +31,8 @@ def set_state():
     if new_state == "SHUTDOWN":
         print("shutdown method working")
         try:
+            response = requests.put(f"{SERVICE1_URL}/state", data=new_state)
+            print(response.content)
             threading.Thread(target=stop_services).start()
             return jsonify({"message": "dockers stopped"}, 200)
         except Exception as e:
