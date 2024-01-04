@@ -52,17 +52,20 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.content_type, 'text/plain')
         mock_put.assert_called_once_with('http://service1:8001/state', data='PAUSE')
 
-    # @patch('requests.put')  # Mock the requests.put function
-    # def test_set_shutdown_state(self, mock_put):
-    #     mock_put.return_value.content = b"services stopped.."
-    #     mock_put.return_value.status_code = 200
-    #
-    #     response = self.app.put('/state', data='SHUTDOWN')
-    #
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(response.data, b"services stopped..")
-    #     self.assertEqual(response.content_type, 'text/plain')
-    #     mock_put.assert_called_once_with('http://service1:8001/state', data='SHUTDOWN')
+    @patch('requests.put')  # Mock the requests.put function
+    def test_set_shutdown_state(self, mock_put):
+        mock_put.return_value.content = b"services stopped.."
+        mock_put.return_value.status_code = 200
+
+        response = self.app.put('/state', data='SHUTDOWN')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, b"services stopped..")
+        self.assertEqual(response.content_type, 'text/plain')
+        mock_put.assert_c
+
+
+        called_once_with('http://service1:8001/state', data='SHUTDOWN')
 
     @patch('requests.put')  # Mock the requests.put function
     def test_set_fake_state(self, mock_put):
@@ -99,5 +102,6 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content_type, 'text/plain')
         mock_get.assert_called_once_with('http://monitoring_service:8087/run-logs')
+
 if __name__ == '__main__':
     unittest.main()
