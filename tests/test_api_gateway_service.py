@@ -62,10 +62,7 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, b"services stopped..")
         self.assertEqual(response.content_type, 'text/plain')
-        mock_put.assert_c
-
-
-        called_once_with('http://service1:8001/state', data='SHUTDOWN')
+        mock_put.assert_called_once_with('http://service1:8001/state', data='SHUTDOWN')
 
     @patch('requests.put')  # Mock the requests.put function
     def test_set_fake_state(self, mock_put):
@@ -103,8 +100,7 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.content_type, 'text/plain')
         mock_get.assert_called_once_with('http://monitoring_service:8087/run-logs')
     @patch('requests.get')
-    def test_get_mq_statistics(self, mock_get_rabbitmq_statistics):
-
+    def test_get_mq_statistics(self, mock_get):
 
         response = self.app.get('/mqstatistic')
         # Assert the response status code and content
