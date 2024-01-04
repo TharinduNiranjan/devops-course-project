@@ -17,6 +17,7 @@ test:
   stage: test
   script:
     - docker-compose run --rm api_gateway_service python -m unittest discover /app -v
+    - coverage run -m unittest discover -s tests -v && cd tests && coverage lcov
 
 
 sonarqube-check:
@@ -34,7 +35,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - sonar-scanner -Dsonar.projectKey=api_service -Dsonar.projectName=api_service -Dsonar.sources=tests -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_c2f8edf892d2897eaea2036d6b88cdee9fc03993 
+    - sonar-scanner -Dsonar.projectKey=api_service -Dsonar.python.lcov.reportPaths=tests/coverage.lcov -Dsonar.projectName=api_service -Dsonar.sources=tests -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_c2f8edf892d2897eaea2036d6b88cdee9fc03993 
   allow_failure: true
   only:
     - project # the name of branch
