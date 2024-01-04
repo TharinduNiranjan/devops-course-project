@@ -36,7 +36,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - sonar-scanner -Dsonar.projectKey=api_service -Dsonar.python.lcov.reportPaths=coverage.lcov -Dsonar.projectName=api_service -Dsonar.sources=tests -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_c2f8edf892d2897eaea2036d6b88cdee9fc03993 
+    - sonar-scanner -Dsonar.projectKey=api_service -Dsonar.python.lcov.reportPaths=coverage.lcov -Dsonar.projectName=api_service -Dsonar.sources=api_gateway_service -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_c2f8edf892d2897eaea2036d6b88cdee9fc03993 
   allow_failure: true
   only:
     - project # the name of branch
