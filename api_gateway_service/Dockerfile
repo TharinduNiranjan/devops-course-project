@@ -1,6 +1,7 @@
 # Use a Python 3.9 alpine base image
 FROM python:3.9-alpine
 
+RUN apk add docker
 # Set the working directory
 WORKDIR /app
 
@@ -8,7 +9,7 @@ WORKDIR /app
 COPY api_gateway_service.py .
 COPY tests/test_api_gateway_service.py .
 # Install dependencies
-RUN pip install requests flask
+RUN pip install requests flask docker
 
 # Command to run the service
 CMD ["python", "api_gateway_service.py"]
