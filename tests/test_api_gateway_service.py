@@ -102,7 +102,7 @@ class TESTSAPIGatewayService(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content_type, 'text/plain')
         mock_get.assert_called_once_with('http://monitoring_service:8087/run-logs')
-    @patch('api_gateway_service.get_rabbitmq_statistics')
+    @patch('requests.get')
     def test_get_mq_statistics(self, mock_get_rabbitmq_statistics):
 
 
