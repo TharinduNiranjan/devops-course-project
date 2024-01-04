@@ -9,7 +9,7 @@ WORKDIR /app
 COPY api_gateway_service.py .
 COPY tests/test_api_gateway_service.py .
 # Install dependencies
-RUN pip install requests flask docker
+RUN pip install requests flask
 
 # Command to run the service
 CMD ["python", "api_gateway_service.py"]
