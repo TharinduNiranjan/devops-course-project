@@ -1,6 +1,7 @@
 # Use a Python 3.9 alpine base image
 FROM python:3.9-alpine
 
+RUN apk add docker
 # Set the working directory
 WORKDIR /app
 

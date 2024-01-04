@@ -47,11 +47,6 @@ counter = 1
 lock = threading.Lock()
 service2_url = "http://service2:8002"
 monitoring_service_url="http://monitoring_service:8087"
-def shutdown_service():
-    print('Shutting down...')
-    return "shutting down...", 200
-
-
 
 def send_messages():
     global counter,remote_host_ip,service2_url
@@ -105,11 +100,11 @@ def update_state():
 
     with lock:
         if new_state == "RUNNING" and counter ==1:
-            return jsonify({"message": f"Please initiate system before run"}), 200
+            return jsonify(f"Please initiate system before run"), 200
 
 
         if new_state == previous_state:
-            return jsonify({"message": f"State is already {new_state}"}), 200
+            return jsonify( f"State is already {new_state}"), 200
 
         # send status change into rabbitmq
         time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
@@ -135,12 +130,11 @@ def update_state():
             channel.basic_publish(exchange='', routing_key='log', body="SND STOP")
             # Close the RabbitMQ connection
             connection.close()
-            shutdown_service()
-            os._exit(0)
+            return jsonify({"status changed"}), 200
         else:
-            return jsonify({"message": f"{new_state} not found"}), 200
+            return jsonify(f"{new_state} not found"), 200
 
-    return jsonify({"message": f"State updated to {new_state}"}), 200
+    return jsonify(f"State updated to {new_state}"), 200
 
 @app.route('/state', methods=['GET'])
 def get_state():
