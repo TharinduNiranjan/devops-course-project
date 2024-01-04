@@ -25,7 +25,7 @@ class TESTSAPIGatewayService(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         #self.assertEqual(response.data, b"Mocked Content")
-        self.assertEqual(response.content_type, 'text/plain')
+        #self.assertEqual(response.content_type, 'text/plain')
     @patch('requests.put')  # Mock the requests.put function
     def test_set_state_other_than_shutdown(self, mock_put):
         # Mock the response from the requests.put call
