@@ -26,7 +26,6 @@ def get_messages():
 
 @app.route('/state', methods=['PUT'])
 def set_state():
-    global  shutdown_requested
     new_state = request.get_data().decode('utf-8')
     if new_state == "SHUTDOWN":
         print("shutdown method working")

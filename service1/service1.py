@@ -47,11 +47,6 @@ counter = 1
 lock = threading.Lock()
 service2_url = "http://service2:8002"
 monitoring_service_url="http://monitoring_service:8087"
-def shutdown_service():
-    print('Shutting down...')
-    return "shutting down...", 200
-
-
 
 def send_messages():
     global counter,remote_host_ip,service2_url
@@ -135,8 +130,7 @@ def update_state():
             channel.basic_publish(exchange='', routing_key='log', body="SND STOP")
             # Close the RabbitMQ connection
             connection.close()
-            shutdown_service()
-            os._exit(0)
+            return jsonify({"status changed"}), 200
         else:
             return jsonify({"message": f"{new_state} not found"}), 200
 
