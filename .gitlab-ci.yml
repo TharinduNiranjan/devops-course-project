@@ -46,7 +46,8 @@ deploy:
     - docker-compose up -d
 
 deploy-aws:
-  tags: dcthra-aws
+  tags:
+    - dcthra-aws
   stage: deploy
   script:
     - docker-compose up -d
