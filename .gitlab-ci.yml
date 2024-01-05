@@ -19,7 +19,7 @@ build:
 aws-image-push:
   stage: aws-image-push
   before_script:
-    - apk add bash
+    - apk add bash aws-cli
   script:
     - ls -la
     - bash aws_push.sh
