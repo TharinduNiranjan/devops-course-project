@@ -13,6 +13,7 @@ stages:
 build:
   stage: build
   script:
+    - ls -la
     - docker-compose build
 
 aws-image-push:
@@ -22,7 +23,6 @@ aws-image-push:
     - python3 -m venv /path/to/venv
     - . /path/to/venv/bin/activate
     - pip install awscli 
-    - echo $AWS_DEFAULT_REGION
     - aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_REPO_URL
 
   script:
