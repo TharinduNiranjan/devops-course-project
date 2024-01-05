@@ -6,12 +6,15 @@ stages:
   - build
   - test
   - sonarqube-check
+  - aws-image-push
   - deploy
+  - deploy-aws
   
 build:
   stage: build
   script:
     - docker-compose build
+
 
 test:
   stage: test
@@ -23,14 +26,12 @@ test:
 
 sonarqube-check:
   stage: sonarqube-check
-  tags:
-      - dcthra  # name of gitlab runner tag
   image: 
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" 
+    GIT_DEPTH: "0"  
   cache:
     key: "${CI_JOB_NAME}"
     paths:
@@ -39,9 +40,32 @@ sonarqube-check:
     - sonar-scanner -Dsonar.projectKey=api_service -Dsonar.coverage.jacoco.xmlReportPaths=coverage.xml -Dsonar.projectName=api_service -Dsonar.sources=api_gateway_service -Dsonar.tests=tests -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_c2f8edf892d2897eaea2036d6b88cdee9fc03993 
   allow_failure: true
   only:
-    - project # the name of branch
+    - project 
+
+
+aws-image-push:
+  stage: aws-image-push
+
+  before_script:
+    - apk add bash aws-cli
+  script:
+    - bash aws_push.sh
+
 
 deploy:
   stage: deploy
   script:
     - docker-compose up -d
+
+
+deploy-aws:
+  tags:
+    - dcthra-aws
+  stage: deploy
+  before_script:
+    - export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
+    - export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
+    - export AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION"
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO_URL
+  script:
+    - docker-compose -f docker-compose-aws.yml up -d

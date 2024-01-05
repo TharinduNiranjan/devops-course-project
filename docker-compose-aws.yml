@@ -5,35 +5,27 @@ services:
     networks:
       - mynetwork
   service1:
-    image: service1
-    build:
-      context: ./service1
+    image: $ECR_REPO_URL/service1
     depends_on:
       - rabbitmq
     networks:
       - mynetwork
   service2:
-    image: service2
-    build:
-      context: ./service2
+    image: $ECR_REPO_URL/service2
     depends_on:
       - rabbitmq
     networks:
       - mynetwork
   monitoring_service:
-    image: monitoring_service
-    build:
-      context: ./monitoring_service
+    image: $ECR_REPO_URL/monitoring_service
     depends_on:
       - rabbitmq
     networks:
       - mynetwork
   api_gateway_service:
-    image: api_gateway_service
+    image: $ECR_REPO_URL/api_gateway_service
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    build:
-      context: ./api_gateway_service
     depends_on:
       - rabbitmq
     ports:
