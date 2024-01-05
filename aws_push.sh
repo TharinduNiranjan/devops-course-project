@@ -2,7 +2,7 @@
 
 
 # Set the names of your Docker images
-images=("service1" "service2" "api_gateway_service" "monitoring_service")
+images=( "service1" "service2" "api_gateway_service" "monitoring_service" )
 
 # Log in to AWS ECR
 aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO_URL
