@@ -6,6 +6,7 @@ stages:
   - build
   - test
   - sonarqube-check
+  - aws-image-push
   - deploy
   - deploy-aws
   
@@ -40,8 +41,8 @@ sonarqube-check:
   only:
     - project 
 
-push:
-  stage: push
+aws-image-push:
+  stage: aws-image-push
   variables:
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
