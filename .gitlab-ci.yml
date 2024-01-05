@@ -50,7 +50,9 @@ aws-image-push:
     ECR_REPO_URL: $ECR_REPO_URL
   before_script:
     - apk add --no-cache curl jq python3 py-pip
-    - python3 -m pip install awscli
+    - python3 -m venv /path/to/venv
+    - . /path/to/venv/bin/activate
+    - pip install awscli 
     - aws configure set aws_access_key_id $CI_AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $CI_AWS_SECRET_ACCESS_KEY
     - aws configure set region $CI_AWS_DEFAULT_REGION
