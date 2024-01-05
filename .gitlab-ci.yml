@@ -40,6 +40,16 @@ sonarqube-check:
   only:
     - project 
 
+push:
+  stage: push
+  variables:
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+    ECR_REPO_URL: $AWS_ECR_REPO_URL
+  script:
+    - aws_push.sh
+
 deploy:
   stage: deploy
   script:
