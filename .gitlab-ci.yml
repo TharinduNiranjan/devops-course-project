@@ -48,8 +48,10 @@ aws-image-push:
     CI_AWS_SECRET_ACCESS_KEY: $CI_AWS_SECRET_ACCESS_KEY
     CI_AWS_DEFAULT_REGION: $CI_AWS_DEFAULT_REGION
     ECR_REPO_URL: $ECR_REPO_URL
+  before_script:
+    - chmod +x ./aws_push.sh
   script:
-    - .aws_push.sh
+    - ./aws_push.sh
 
 deploy:
   stage: deploy
