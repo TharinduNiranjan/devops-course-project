@@ -44,12 +44,12 @@ sonarqube-check:
 aws-image-push:
   stage: aws-image-push
   variables:
-    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-    ECR_REPO_URL: $AWS_ECR_REPO_URL
+    CI_AWS_ACCESS_KEY_ID: $C_AWS_ACCESS_KEY_ID
+    CI_AWS_SECRET_ACCESS_KEY: $CI_AWS_SECRET_ACCESS_KEY
+    CI_AWS_DEFAULT_REGION: $CI_AWS_DEFAULT_REGION
+    ECR_REPO_URL: $ECR_REPO_URL
   script:
-    - bash aws_push.sh
+    - .aws_push.sh
 
 deploy:
   stage: deploy
