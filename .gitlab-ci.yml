@@ -4,39 +4,17 @@ default:
 
 stages:
   - build
-  - aws-image-push
   - test
   - sonarqube-check
+  - aws-image-push
   - deploy
   - deploy-aws
   
 build:
   stage: build
   script:
-    - ls -la
     - docker-compose build
 
-aws-image-push:
-  stage: aws-image-push
-
-  before_script:
-    - apk add bash aws-cli
-  script:
-    - ls -la
-    - bash aws_push.sh
-  # before_script:
-  #   - apk add --no-cache curl jq python3 py-pip
-  #   - python3 -m venv /path/to/venv
-  #   - . /path/to/venv/bin/activate
-  #   - pip install awscli 
-  #   - aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_REPO_URL
-
-  # script:
-  #   -  |-
-  #           for image in service1 service2 monitoring_service api_gateway_service; do
-  #               docker tag $image:latest $ECR_REPO_URL/$image:latest
-  #               docker push $ECR_REPO_URL/$image:lates
-  #           done
 
 test:
   stage: test
@@ -65,11 +43,20 @@ sonarqube-check:
     - project 
 
 
+aws-image-push:
+  stage: aws-image-push
+
+  before_script:
+    - apk add bash aws-cli
+  script:
+    - bash aws_push.sh
+
 
 deploy:
   stage: deploy
   script:
-    - docker-compose up -d
+    - docker-compose  -f docker-compose-aws.yml up -d
+
 
 deploy-aws:
   tags:
