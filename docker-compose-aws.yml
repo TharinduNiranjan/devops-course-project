@@ -1,0 +1,36 @@
+version: '3'
+services:
+  rabbitmq:
+    image: "rabbitmq:management-alpine"
+    networks:
+      - mynetwork
+  service1:
+    image: $ECR_REPO_URL/service1
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+  service2:
+    image: $ECR_REPO_URL/service2
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+  monitoring_service:
+    image: $ECR_REPO_URL/monitoring_service
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+  api_gateway_service:
+    image: $ECR_REPO_URL/api_gateway_service
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8083:8083"
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
