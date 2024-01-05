@@ -49,8 +49,7 @@ aws-image-push:
     AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
     ECR_REPO_URL: $AWS_ECR_REPO_URL
   script:
-    - chmod +x ./aws_push.sh
-    - ./aws_push.sh
+    - bash aws_push.sh
 
 deploy:
   stage: deploy
