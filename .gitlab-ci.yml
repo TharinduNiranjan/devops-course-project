@@ -55,7 +55,7 @@ aws-image-push:
 deploy:
   stage: deploy
   script:
-    - docker-compose  -f docker-compose-aws.yml up -d
+    - docker-compose up -d
 
 
 deploy-aws:
@@ -63,4 +63,4 @@ deploy-aws:
     - dcthra-aws
   stage: deploy
   script:
-    - docker-compose up -d
+    - docker-compose -f docker-compose-aws.yml up -d
