@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+# Set AWS credentials
+export AWS_ACCESS_KEY_ID="$CI_AWS_ACCESS_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="$CI_AWS_SECRET_ACCESS_KEY"
+export AWS_DEFAULT_REGION="$CI_AWS_DEFAULT_REGION"
+
 # Set the names of your Docker images
 images=( "service1" "service2" "api_gateway_service" "monitoring_service" )
 
