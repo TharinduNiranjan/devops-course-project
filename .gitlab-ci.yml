@@ -44,14 +44,24 @@ sonarqube-check:
 aws-image-push:
   stage: aws-image-push
   variables:
-    CI_AWS_ACCESS_KEY_ID: $C_AWS_ACCESS_KEY_ID
+    CI_AWS_ACCESS_KEY_ID: $CI_AWS_ACCESS_KEY_ID
     CI_AWS_SECRET_ACCESS_KEY: $CI_AWS_SECRET_ACCESS_KEY
     CI_AWS_DEFAULT_REGION: $CI_AWS_DEFAULT_REGION
     ECR_REPO_URL: $ECR_REPO_URL
   before_script:
-    - chmod +x ./aws_push.sh
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    - aws configure set aws_access_key_id $CI_AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $CI_AWS_SECRET_ACCESS_KEY
+    - aws configure set region $CI_AWS_DEFAULT_REGION
+    - aws ecr get-login-password --region $CI_AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO_URL
+
   script:
-    - ./aws_push.sh
+    -  |-
+            for image in service1 service2 monitoring_service api_gateway_service; do
+                docker tag $image:latest $ECR_REPO_URL/$image:latest
+                docker push $ECR_REPO_URL/$image:lates
+            done
 
 deploy:
   stage: deploy
