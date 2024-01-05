@@ -10,11 +10,6 @@ app = Flask(__name__)
 MONITOR_SERVICE_URL = "http://monitoring_service:8087"
 SERVICE1_URL = "http://service1:8001"
 
-# URLS
-MONITOR_SERVICE_URL = "http://monitoring_service:8087"
-SERVICE1_URL = "http://service1:8001"
-SERVICE2_URL = "http://service2:8002"
-
 # RabbitMQ API URLs
 RABBITMQ_HOST = 'rabbitmq'
 RABBITMQ_PORT = 15672
@@ -57,28 +52,33 @@ def get_rabbitmq_statistics():
     except Exception as e:
         return str(e)
 
+# Function to stop Docker services
 def stop_services():
     try:
+        # Get docker container ids and stop
         container_ids = subprocess.check_output(['docker', 'ps', '-q']).decode('utf-8').splitlines()
         subprocess.run(['docker', 'stop'] + container_ids)
     except Exception as e:
         print(f"Error stopping services: {e}")
 
-
+# Endpoint to get messages from the Monitor service
 @app.route('/messages', methods=['GET'])
 def get_messages():
     # Forward the request to the Monitor service
     response = requests.get(f"{MONITOR_SERVICE_URL}/logs")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
+# Endpoint to set the state and potentially shutdown services
 @app.route('/state', methods=['PUT'])
 def set_state():
     new_state = request.get_data().decode('utf-8')
     if new_state == "SHUTDOWN":
         print("shutdown method working")
         try:
+            # Forward the request to the service1
             response = requests.put(f"{SERVICE1_URL}/state", data=new_state)
             print(response.content)
+            # Stoping services
             threading.Thread(target=stop_services).start()
             return "services stopped..", response.status_code, {'Content-Type': 'text/plain'}
         except Exception as e:
@@ -88,13 +88,14 @@ def set_state():
         response = requests.put(f"{SERVICE1_URL}/state", data=new_state)
         return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
-
+# Endpoint to get the state from service1
 @app.route('/state', methods=['GET'])
 def get_state():
     # Forward the request to the service1
     response = requests.get(f"{SERVICE1_URL}/state")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
+# Endpoint to get run logs from the Monitor service
 @app.route('/run-log', methods=['GET'])
 def get_run_log():
     # Forward the request to the Monitor service

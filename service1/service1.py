@@ -37,6 +37,7 @@ channel.queue_declare(queue='message')
 #  declaring log queue
 channel.queue_declare(queue='log')
 
+# Define the remote host and its IP address
 remote_host = 'service2'  # to get the remote host address through docker network
 remote_host_ip = socket.gethostbyname(remote_host) # get the service2 ip
 running_state = False
@@ -48,6 +49,7 @@ lock = threading.Lock()
 service2_url = "http://service2:8002"
 monitoring_service_url="http://monitoring_service:8087"
 
+# Function to send messages to RabbitMQ and Service 2
 def send_messages():
     global counter,remote_host_ip,service2_url
     time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
@@ -92,6 +94,8 @@ loop_thread = threading.Thread(target=loop_function)
 loop_thread.start()
 
 app = Flask(__name__)
+
+# Endpoint to update the system state
 @app.route('/state', methods=['PUT'])
 def update_state():
     global running_state, counter, previous_state
@@ -112,6 +116,7 @@ def update_state():
         print("sending data to rabbitmq " + state_change)
         channel.basic_publish(exchange='', routing_key='log-state', body=state_change)
 
+        # Handle different state transitions
         if new_state == "INIT":
             counter = 1
             previous_state = "RUNNING"
@@ -136,6 +141,7 @@ def update_state():
 
     return jsonify(f"State updated to {new_state}"), 200
 
+# Endpoint to get the current system state
 @app.route('/state', methods=['GET'])
 def get_state():
     global previous_state

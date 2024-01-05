@@ -1,7 +1,9 @@
 const http = require('http');
 const amqp = require('amqplib/callback_api');
 
+// Function to start Service 2
 const startService = () => {
+  // Create an HTTP server to handle incoming requests
   const server = http.createServer((req, res) => {
     if (req.method === 'POST') {
       let data = '';
@@ -42,6 +44,7 @@ const startService = () => {
     }
   });
 
+    // Start the HTTP server on port 8002
   server.listen(8002, () => {
     console.log('Service 2 is listening on port 8000');
   });
@@ -79,6 +82,7 @@ const startService = () => {
   });
 };
 
+// Function to shutdown Service 2
 const shutdownService = (res) => {
   console.log('Shutting down Service 2...');
   // Close the server and exit the process
@@ -88,6 +92,7 @@ const shutdownService = (res) => {
 };
 
 
+ // Attempt to connect to RabbitMQ
 const waitForRabbitMQ = () => {
   amqp.connect('amqp://rabbitmq', (error, connection) => {
     if (error) {
@@ -100,4 +105,5 @@ const waitForRabbitMQ = () => {
   });
 };
 
+// Start by waiting for RabbitMQ to be ready
 waitForRabbitMQ();
