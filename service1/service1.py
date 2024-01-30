@@ -1,4 +1,3 @@
-
 #Import libraries
 import requests
 import datetime
@@ -121,9 +120,9 @@ def update_state():
             counter = 1
             previous_state = "RUNNING"
             running_state = True
-        elif new_state == "PAUSE":
+        elif new_state == "PAUSED":
             running_state = False
-            previous_state="PAUSE"
+            previous_state="PAUSED"
         elif new_state == "RUNNING":
             previous_state="RUNNING"
             running_state = True
