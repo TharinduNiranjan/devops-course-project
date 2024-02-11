@@ -13,7 +13,7 @@ Git Repository for Continuous Development and Deployment - DevOps Master's Cours
 
 1. Clone the repository.
     ```bash
-           git clone -b project https://github.com/SharadaJay/devops-course.git
+           git clone -b project https://github.com/TharinduNiranjan/devops-course-project.git
     ```
 
 2. Change the directory.
