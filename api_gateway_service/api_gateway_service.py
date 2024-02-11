@@ -21,6 +21,10 @@ RABBITMQ_PASSWORD = 'guest'
 
 # Function to fetch RabbitMQ statistics
 def get_rabbitmq_statistics():
+    """
+        Fetches RabbitMQ overall and per-queue statistics using the RabbitMQ Management API.
+        """
+
     try:
         # Create a connection to RabbitMQ API
         connection = http.client.HTTPConnection(RABBITMQ_HOST, RABBITMQ_PORT)
@@ -54,6 +58,10 @@ def get_rabbitmq_statistics():
 
 # Function to stop Docker services
 def stop_services():
+    """
+        Stops Docker services by sending a 'docker stop' command.
+        """
+
     try:
         # Get docker container ids and stop
         container_ids = subprocess.check_output(['docker', 'ps', '-q']).decode('utf-8').splitlines()
@@ -64,6 +72,10 @@ def stop_services():
 # Endpoint to get messages from the Monitor service
 @app.route('/messages', methods=['GET'])
 def get_messages():
+    """
+       Endpoint to retrieve messages from the Monitor service.
+       """
+
     # Forward the request to the Monitor service
     response = requests.get(f"{MONITOR_SERVICE_URL}/logs")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
@@ -71,6 +83,10 @@ def get_messages():
 # Endpoint to set the state and potentially shutdown services
 @app.route('/state', methods=['PUT'])
 def set_state():
+    """
+        Endpoint to set the state and potentially shutdown services.
+        """
+
     new_state = request.get_data().decode('utf-8')
     if new_state == "SHUTDOWN":
         print("shutdown method working")
@@ -91,6 +107,10 @@ def set_state():
 # Endpoint to get the state from service1
 @app.route('/state', methods=['GET'])
 def get_state():
+    """
+        Endpoint to retrieve the state from service1.
+        """
+
     # Forward the request to the service1
     response = requests.get(f"{SERVICE1_URL}/state")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
@@ -98,12 +118,20 @@ def get_state():
 # Endpoint to get run logs from the Monitor service
 @app.route('/run-log', methods=['GET'])
 def get_run_log():
+    """
+        Endpoint to retrieve run logs from the Monitor service.
+        """
+
     # Forward the request to the Monitor service
     response = requests.get(f"{MONITOR_SERVICE_URL}/run-logs")
     return response.content, response.status_code, {'Content-Type': 'text/plain'}
 
 @app.route('/mqstatistic', methods=['GET'])
 def get_mq_statistics():
+    """
+        Endpoint to retrieve RabbitMQ statistics.
+        """
+
     # Forward the request to get RabbitMQ statistics
     rabbitmq_statistics = get_rabbitmq_statistics()
     return rabbitmq_statistics, 200, {'Content-Type': 'application/json'}

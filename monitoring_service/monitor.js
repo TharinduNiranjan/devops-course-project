@@ -38,9 +38,6 @@ function runHttpServer() {
     } else if(req.url === '/run-logs'){
       res.setHeader('Content-Type', 'text/plain');
       res.end(receivedRunLogMessages.join('\n'));
-    } else if (req.url === '/shutdown') {
-      // Handle shutdown request
-      shutdownService(res);
     } else {
       res.statusCode = 404;
       res.end('Not Found');
@@ -51,15 +48,6 @@ function runHttpServer() {
     console.log('Monitoring service is running on port 8087');
   });
 }
-
-// Function to shutdown the service
-const shutdownService = (res) => {
-  console.log('Shutting down Service 2...');
-  // Close the server and exit the process
-  res.statusCode = 200;
-  res.end('Shutting down Service 2...');
-  process.exit(0);
-};
 
  // Attempt to connect to RabbitMQ
 connection.on('connect', () => {

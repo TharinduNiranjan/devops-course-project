@@ -13,6 +13,10 @@ from tenacity import retry, stop_after_delay, wait_fixed
 
 @retry(stop=stop_after_delay(30), wait=wait_fixed(2))
 def connect_to_rabbitmq():
+    """
+        Attempt to connect to RabbitMQ with retry mechanism
+        """
+
     try:
         connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
         print("connected..")
@@ -50,6 +54,10 @@ monitoring_service_url="http://monitoring_service:8087"
 
 # Function to send messages to RabbitMQ and Service 2
 def send_messages():
+    """
+        Function to send messages to RabbitMQ and Service 2
+        """
+
     global counter,remote_host_ip,service2_url
     time_stamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # get time stamp
     data = f"SND {counter} {time_stamp} {remote_host_ip}:8002"  # construct text data to send and write
@@ -76,6 +84,10 @@ def send_messages():
 
 
 def loop_function():
+    """
+        Function to continuously send messages
+        """
+
     global running_state, counter, previous_state
     while True:
         with lock:
@@ -97,6 +109,10 @@ app = Flask(__name__)
 # Endpoint to update the system state
 @app.route('/state', methods=['PUT'])
 def update_state():
+    """
+        Endpoint to update the system state
+        """
+
     global running_state, counter, previous_state
     print(request.data)
     new_state = request.data.decode('utf-8')
@@ -143,6 +159,10 @@ def update_state():
 # Endpoint to get the current system state
 @app.route('/state', methods=['GET'])
 def get_state():
+    """
+        Endpoint to get the current system state
+        """
+
     global previous_state
     return previous_state
 
