@@ -1,3 +1,11 @@
+# devops-course-project
+Git Repository for DevOps Master's Course at Tampere University
+
+<br>
+
+**ansible** branch holds the implementation of the instructions provided in the *ansible-instructions* PDF file. Please refer to the instructions here [ansible-instructions](./ansible-instructions.pdf).
+
+<be>
 
 ## Installation Guideline
 
